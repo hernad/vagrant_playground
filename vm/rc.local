@@ -1,0 +1,10 @@
+#!/bin/sh -e
+
+/sbin/udevadm trigger
+/etc/init.d/networking restart
+
+sleep 2
+/etc/init.d/networking restart
+/sbin/restart network-manager
+
+exit 0
