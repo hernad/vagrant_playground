@@ -1,3 +1,5 @@
+#!/usr/bin/env ryby
+
 IP_ADDR = "33.33.33.10"
 HOST_NAME = "desk-1b"
 
