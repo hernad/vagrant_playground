@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+Vagrant::Config.run do |config|
+  config.vm.box = "base"
+
+  config.vm.network "33.33.33.10"
+
+
+  config.vm.forward_port("chefs", 4000, 4000)
+  config.vm.forward_port("chefs-webui", 4040, 4040)
+  #config.vm.forward_port("ssh", 22, 2223,:auto => true)
+
+  config.vm.provision :chef_solo do |chef|
+      chef.cookbooks_path = "cookbooks"
+      chef.roles_path = `pwd`.chop! + "/roles"
+      chef.add_role("chef-srv")
+      chef.json.merge!( {
+        :chef_server => {
+          :url => "http://localhost.localdomain:4000",
+          :webui_enabled => true
+        }
+     })
+   
+  end
+
+end

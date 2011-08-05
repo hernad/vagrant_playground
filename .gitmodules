@@ -1,0 +1,3 @@
+[submodule "chef_srv/cookbooks"]
+	path = chef_srv/cookbooks
+	url = git://github.com/hernad/cookbooks.git
