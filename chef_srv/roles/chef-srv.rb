@@ -1,6 +1,6 @@
 name "chef-srv"
 
-description "vagrant chef-server ntp i upgrade chef na 0.10.2"
+description "vagrant chef-server"
 
 run_list [
   "recipe[ntp]",
