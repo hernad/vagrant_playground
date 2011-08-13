@@ -1,14 +1,19 @@
 #!/usr/bin/env ruby
 
+# rabbitmq-server smeta mu crtica u nazivu ?!
+HOST_NAME = "chef-1"
+DOMAIN = "bring.out.local"
+CHEF_PORT = 4000
+IP_ADDR = "33.33.33.5"
+
 Vagrant::Config.run do |config|
   config.vm.box = "base"
 
-  config.vm.network "33.33.33.10"
+  config.vm.network "33.33.33.5"
 
 
-  config.vm.forward_port("chefs", 4000, 4000)
+  config.vm.forward_port("chefs", CHEF_PORT, 4000)
   config.vm.forward_port("chefs-webui", 4040, 4040)
-  #config.vm.forward_port("ssh", 22, 2223,:auto => true)
 
   config.vm.provision :chef_solo do |chef|
       chef.cookbooks_path = "cookbooks"
@@ -16,9 +21,19 @@ Vagrant::Config.run do |config|
       chef.add_role("chef-srv")
       chef.json.merge!( {
         :chef_server => {
-          :url => "http://localhost.localdomain:4000",
+          :url => "http://" + HOST_NAME + "." + DOMAIN + ":" + CHEF_PORT.to_s,
           :webui_enabled => true
-        }
+        },
+		:hosts =>   {
+		 	:hostname => HOST_NAME,
+			:domain => DOMAIN,
+			:list => [ 
+				 { :addr => IP_ADDR, :name => HOST_NAME },
+				 { :addr => "33.33.33.7", :name => "host-7" }
+		    ],
+			:beze_veze => 0
+		
+		}
      })
    
   end
